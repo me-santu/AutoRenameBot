@@ -1,6 +1,6 @@
 import logging, os
 from pyrogram import Client, filters
-from bot.handlers import start_handler, rename_handler
+from bot.handlers import start_handler, file_receive_handler, button_callback_handler
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,9 +15,15 @@ app = Client(
 async def start(client, message):
     await start_handler(client, message)
 
+# ✅ File receive handler
 @app.on_message(filters.document | filters.video | filters.audio)
-async def rename_file(client, message):
-    await rename_handler(client, message)
+async def file_receive(client, message):
+    await file_receive_handler(client, message)
+
+# ✅ Inline button callback handler
+@app.on_callback_query()
+async def callback_handler(client, callback_query):
+    await button_callback_handler(client, callback_query)
 
 print("✅ AutoRenameBOT is running...")
 app.run()
