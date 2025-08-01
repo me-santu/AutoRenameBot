@@ -1,0 +1,8 @@
+import os, subprocess
+
+def add_watermark(file_path):
+    output = "watermarked_" + os.path.basename(file_path)
+    # Example FFmpeg watermark command (text watermark)
+    cmd = f'ffmpeg -i "{file_path}" -vf "drawtext=text=\'© AutoRenameBOT\':fontcolor=white:fontsize=24:x=10:y=10" "{output}" -y'
+    subprocess.run(cmd, shell=True)
+    return output
